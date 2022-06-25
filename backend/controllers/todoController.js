@@ -32,7 +32,7 @@ const setTodo = asyncHandler(async (req, res) => {
     priority: req.body.priority,
     startDate: req.body.startDate,
     dueDate: req.body.dueDate,
-    status: "Pending",
+    status: "pending",
     user: req.user.id,
   });
 
