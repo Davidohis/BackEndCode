@@ -32,6 +32,7 @@ const setTodo = asyncHandler(async (req, res) => {
     priority: req.body.priority,
     startDate: req.body.startDate,
     dueDate: req.body.dueDate,
+    status: "Pending",
     user: req.user.id,
   });
 
@@ -68,6 +69,36 @@ const updateTodo = asyncHandler(async (req, res) => {
   res.status(200).json(updatedTodo);
 });
 
+// @desc    Todo status
+// @route   PUT /api/todo/status/:id
+// @access  Private
+const TodoStatus = asyncHandler(async (req, res) => {
+  const todo = await Todo.findById(req.params.id);
+
+  if (!todo) {
+    res.status(400);
+    throw new Error("Todo not found");
+  }
+
+  // Check for user
+  if (!req.user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  // Make sure the logged in user matches the todo user
+  if (todo.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
+  const TodoStatus = await Todo.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+
+  res.status(200).json(TodoStatus);
+});
+
 // @desc    Delete todo
 // @route   DELETE /api/todo/:id
 // @access  Private
@@ -101,4 +132,5 @@ module.exports = {
   setTodo,
   updateTodo,
   deleteTodo,
+  TodoStatus,
 };

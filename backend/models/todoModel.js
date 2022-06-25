@@ -20,7 +20,7 @@ const todoSchema = mongoose.Schema(
       required: [true, "Please add a text value"],
     },
     priority: {
-      type: String,
+      type: Boolean,
       required: [true, "Please add a  value"],
     },
     startDate: {
@@ -28,6 +28,10 @@ const todoSchema = mongoose.Schema(
       required: [true, "Please add a  value"],
     },
     dueDate: {
+      type: String,
+      required: [true, "Please add a  value"],
+    },
+    status: {
       type: String,
       required: [true, "Please add a  value"],
     },
